@@ -1,34 +1,46 @@
 ---
 title: 'Data Visualization with Python for Statistical Inference and Storytelling'
-teaching: 10
-exercises: 2
+teaching: 120
+exercises: 15
 ---
-<span style="color: red;">Update teaching time and number of exercises.</span>
+
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
 - How can you create scatter plots, bubble charts, and correlograms with Python?
-- When are these graphs useful for inferring information from data?
-- How are these visualizations valuable for humanists?
+- How can these graphs be implemented in data storytelling? 
+- How can you infer statistical information from a dataset, using these visualizations?
+- How can these visualizations contribute to humanists research?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Create scatter plots, bubble charts and correlograms in Python, using the Seaborn library
-- Understand the process of creating these graphs to infer information from a dataset
-- Comprehend how these graphs can be used to infer insights from humanities data and for data storytelling
+- Create scatter plots, bubble charts and correlograms in Python, using the Seaborn library.
+- Implement data visualization for exploratory analysis of a concrete dataset and tell a story 
+based on the trends that it reveals. 
+- Use data visualization to infer information from a concrete dataset. 
+- Reflect on the use cases of data visualization in humanities research. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+This episode is the heart of the present lesson. Manage your teaching time carefully to have enough space for 
+hands-on coding and answering questions in this episode. Make sure that all learners have successfully 
+set up Jupyter Notebook on their computers or have access to Google Colab. Encourage the learners to code along with 
+you. You can stop coding at certain points and elicit the next line of code from the learners. Group work is highly
+encourages, especially while doing the final exercise. 
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 In the previous episodes, we explored ten types of graphs and their use cases, as well as the concepts of correlation 
-and regression in the context of inferential statistics. Now, it’s time to put this knowledge into practice! 
+and regression in the context of inferential statistics. Now, it’s time to put this knowledge into practice!
+
 In this episode, we’ll work with the *Income and Happiness Correlation dataset* from Kaggle (see the Setup episode), 
-which consists of 111 data points. We’ll visualize this dataset and learn how to perform inferential statistical 
-analysis on it.
+which consists of 111 data points. We will explore the dataset through various graphs and use them to craft a 
+narrative around the data. In the final exercise, you will enhance this narrative by inferring information 
+that is not yet present in the dataset.
 
-::::::::::::::::::::::::::::::::::::::: discussion
-
+::::::::::::::::::::::::::::::::::::::: callout
 ### Note
 
 Before visualizing any dataset, it’s important to answer the following questions:
@@ -39,21 +51,19 @@ Before visualizing any dataset, it’s important to answer the following questio
 And which type of graph best represents the information I'm looking for?
 
 Let’s answer these questions for our dataset by writing some code.
-
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ## 4.1. Exploring the Dataset
 
 The dataset we're working with is stored in a CSV (comma-separated values) file on GitHub. Let's load it into 
-our notebook and store it in a pandas DataFrame called `happy_df`: 
+our notebook and store it in a pandas DataFrame named `happy_df`: 
 
-```
+```python
 import pandas as pd
 
 # path to the dataset: 
-url= "https://raw.githubusercontent.com/HERMES-DKZ/data_challenges_data_carpentries/main/\
-data_carpentries/statistical_inferece_data_visualization/data_statistical_inference_data_visualization/income_happiness_correlation.csv"
+url= "https://raw.githubusercontent.com/carpentries-incubator/hermes_stat_inf_data_vis/main/episodes/data/income_happiness_correlation.csv"
 
 # loading the dataset and storing it in a pandas DataFrame:
 happy_df= pd.read_csv(url)
@@ -71,9 +81,10 @@ include, and what information might be missing?
 
 Run the following line of code to gain more information about the structure of `happy_df`: 
 
-```
+```python
 # displaying information about the DataFrame:
 happy_df.info()
+
 ```
 
 ![](fig/output_02.png)
@@ -82,8 +93,7 @@ happy_df.info()
 
 ## Question
 
-Now that you know the dataset better, you can answer the question: what information can be *inferred* from 
-this dataset? Which column contains values that could be dependent on other features, and thereby correlates 
+Which column contains values that could be dependent on other features, and thereby correlates 
 with them? Would it be possible to predict the values of this column, given the values of one or more other 
 columns in the dataset?
 
@@ -109,7 +119,7 @@ can only show how changes in one *numerical value* are correlated with changes i
 Therefore, to create a heatmap of all numerical features that could be correlated with `happyScore`, we need to 
 exclude the columns in `happy_df` that contain non-numerical values:
 
-```
+```python
 # selecting only the columns whose values are not of type 'object' and storing them in a new DataFrame:
 numerical_df= happy_df.select_dtypes(exclude=['object'])
 
@@ -122,7 +132,7 @@ numerical_df.head()
 Now, let's use the Python library [Seaborn](https://seaborn.pydata.org/) to create a heatmap of all the values 
 in `numerical_df`:
 
-```
+```python
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -156,12 +166,15 @@ in `corr= numerical_df.corr(method='pearson')`.
 between -1 to +1, with a value of -1 meaning a total negative linear correlation, 0 being no correlation, and +1 
 meaning a total positive correlation." ([ScienceDirect](https://www.sciencedirect.com/topics/computer-science/pearson-correlation#:~:text=content%20were%20calculated.-,The%20Pearson%20correlation%20measures%20the%20strength%20of%20the%20linear%20relationship,meaning%20a%20total%20positive%20correlation))
 
+
+::::::::::::::::::::::::::::::::::::::: discussion
 #### How to read and interpret the heatmap:
 
 - Darker red colors, accompanied by values closer to +1, indicate stronger positive correlations. 
 This means that as one value *increases* at a certain rate, the other *increases* at a similar rate.
 - Darker blue colors, accompanied by values closer to -1, indicate stronger negative correlations. This means 
 that as one value *increases* at a certain rate, the other *decreases* at a similar rate.
+:::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -175,8 +188,8 @@ What patterns does the heatmap above reveal?
  
 - Each feature is most strongly correlated with itself, with a correlation coefficient of +1.
 - Values derived from the same feature demonstrate a high correlation. For example, the correlation 
-coefficient between avg_satisfaction and adjusted_satisfaction is +0.98, because both stem from the 
-satisfaction degree. The same is true about avg_income and median_income with the correlation coefficient being +1.
+coefficient between `avg_satisfaction` and `adjusted_satisfaction` is +0.98, because both stem from the 
+satisfaction degree. The same is true about `avg_income` and `median_income` with the correlation coefficient being +1.
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
@@ -184,7 +197,7 @@ satisfaction degree. The same is true about avg_income and median_income with th
 To create a more precise graph without redundant information, let's retain only one column from the 
 DataFrame that contains data on satisfaction or income, and remove the others:
 
-```
+```python
 # dropping a list of columns from numerical_df and storing the result in a new DataFrame:
 reduced_numerical_df= numerical_df.drop(['adjusted_satisfaction', 'std_satisfaction', 'median_income'], axis=1)
 
@@ -195,7 +208,7 @@ reduced_numerical_df.head()
 
 Let's create the heatmap again, this time using `reduced_numerical_df` insted of `numerical_df`:
 
-```
+```python
 corr= reduced_numerical_df.corr(method='pearson')
 plt.figure(figsize=(5.5, 4))
 sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', cbar=True)
@@ -224,7 +237,7 @@ with lower income inequality.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Let's take a closer look at the correlations we've observed between the `happyScore` and the other features by 
+Let's now take a closer look at the correlations we've observed between the `happyScore` and the other features by 
 drawing different graphs. 
 
 ## 4.3. Drawing Scatter Plots
@@ -233,7 +246,7 @@ Now that we have a general understanding of the correlations within the `happy_d
 look at these relationships. We’ll start by visualizing the correlation between `happyScore` and another variable 
 with a strong positive correlation, such as `GDP`. To achieve this, we can create a scatter plot: 
 
-```
+```python
 # defining the size of the graph: 
 plt.figure(figsize=(8, 4))
 
@@ -264,7 +277,9 @@ plt.show()
 
 ![](fig/output_07.png)
 
-::::::::::::::::::::::::::::::::::::::: discussion
+
+::::::::::::::::::::::::::::::::::::::: testimonial
+
 
 ### Fun Fact
 
@@ -275,7 +290,7 @@ line is minimized. This line, as you learned in the previous chapter, is called 
 The method used to calculate the line's position is known as *linear regression* in statistics. Here is the 
 code to display the regression line on the graph:
 
-```
+```python
 plt.figure(figsize=(8, 4))
 
 sns.scatterplot(data=happy_df, x='GDP', y='happyScore', zorder=3)
@@ -293,6 +308,12 @@ plt.show()
 
 ![](fig/output_08.png)
 
+In this lesson, you will not learn the exact formula for calculating the position of the regression line or making 
+precise predictions based on it. However, visualizing the regression line remains a valuable tool in data 
+storytelling. It allows you to make approximate guesses about certain values not present in the dataset by 
+inferring them from the available data. You will have the opportunity to practice this skill at the end of 
+this episode. 
+
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
 The scatter plot reconfirms the insights we gained from the heatmap, visually demonstrating the positive correlation 
@@ -304,7 +325,7 @@ the heatmap, which couldn’t display regions due to their categorical nature, t
 a unique color to each region. This way, we can see which regions tend to have the highest `GDP` and `happyScore` 
 values:
 
-```
+```python
 plt.figure(figsize=(8, 4))
 
 # adding region to the graph as hue:
@@ -324,17 +345,18 @@ plt.show()
 ![](fig/output_09.png)
 
 ::::::::::::::::::::::::::::::::::::::: discussion
+
 ### Insight
 
 Interesting! Here are some observable trends in the graph: 
 
-- Sub-Saharan African countries have the lowest GDPs, whereas Western European and North American countries have 
+- Sub-Saharan African countries have the lowest `GDP`s, whereas Western European and North American countries have 
 the highest. However, there are countries in the former region in which the `happyScore` is as high as in some 
-Western European countries, regardless of their very low GDP.
-- GDP is highest in Western European countries. However, `happyScore` in a considering number of them is similar 
-to countries in Latin American and Caribbean, even though GDP in these latter regions is lower.
+Western European countries, regardless of their very low `GDP`.
+- `GDP` is highest in Western European countries. However, `happyScore` in a considering number of them is similar 
+to Latin American countries and Caribbean, even though `GDP` in these latter regions is lower.
 - The variation in happiness levels within the same region is greatest among Western European countries, 
-although they all fall into the highest GDP category. 
+although they all fall into the highest `GDP` category. 
 
 Take a closer look at the graph and see if you can identify any additional trends.
 
@@ -346,7 +368,7 @@ Let’s add one more variable to the graph to explore how `avg_income` is distri
 and how it correlates with `region`,  `GDP` and `happyScore`. We’ll add `avg_income` as the node size in the 
 scatter plot, creating a bubble chart:
 
-```
+```python
 plt.figure(figsize=(8, 5))
 
 # adding avg_income to the graph as node size:
@@ -363,6 +385,10 @@ plt.show()
 
 ![](fig/output_10.png)
 
+::::::::::::::::::::::::::::::::::::::: discussion
+
+### Insight
+
 Here, another interesting trend emerges: average income only begins to increase significantly once GDP exceeds 
 a value of 1.
 
@@ -370,12 +396,14 @@ What additional insights can you derive from this graph? Consider exploring patt
 high `happyScore` values relative to `avg_income`. You might also observe whether certain regions exhibit consistent 
 patterns between `avg_income` and `happyScore` despite differences in `GDP`.
 
+:::::::::::::::::::::::::::::::::::::::::::::::::::
+
 ## 4.5. Diving Deeper into Details
 
 As a final step in our exploration, let’s focus on the countries in Sub-Saharan Africa to identify which ones have 
 a low `GDP` but a high `happyScore`:
 
-```
+```python
 # selecting only the countries that belong to the Sub-Saharan Africa and storing them in a new DataFrame:
 african_df= happy_df[happy_df['region']=="'Sub-Saharan Africa'"]
 
@@ -384,7 +412,7 @@ african_df.head()
 
 ![](fig/output_11.png)
 
-```
+```python
 plt.figure(figsize=(10, 7))
 
 sns.scatterplot(data=african_df, x='GDP', y='happyScore', size='avg_income', sizes=(20, 200), alpha=0.6, zorder=3)
@@ -411,17 +439,15 @@ plt.show()
 
 ![](fig/output_12.png)
 
-Let’s examine this scatter plot and compare it with the heatmap we created earlier:
-
-The scatter plot reveals that some economically poor countries in Sub-Saharan Africa, such as Mozambique and 
-Liberia, have a low `GDP` and `avg-income` but still demonstrate a high `happyScore`.
-
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
 ## Question
 
-But didn’t the heatmap show a positive correlation between happiness and GDP? Isn’t this a contradiction?!
+The scatter plot reveals that some economically poor countries in Sub-Saharan Africa, such as Mozambique and 
+Liberia, have a low `GDP` and `avg_income` but still demonstrate a high `happyScore`.
+But didn’t the heatmap that we created earlier show a positive correlation between happiness and GDP? Isn’t this 
+a contradiction?!
 
 :::::::::::::::::::::::: solution 
 
@@ -429,8 +455,9 @@ But didn’t the heatmap show a positive correlation between happiness and GDP? 
  
 Yes and no! Remember, we excluded categorical data, such as region and country names, from `happy_df` to create 
 the heatmap. By analyzing only numerical values, we observed a generally positive correlation between `GDP` and 
-`happyScore`. However, the scatter plots and bubble chart suggest that cultural factors specific to each country 
-significantly influence happiness. This impact is especially visible among Sub-Saharan African countries.
+`happyScore`. However, the scatter plots and bubble chart suggest that maybe cultural factors specific to each 
+country are significantly correlated with happiness. This impact is especially visible among Sub-Saharan African 
+countries.
 
 Therefore, if we want to draw an inferential conclusion from our observations, it would be this: happiness appears 
 to be influenced by a combination of GDP, income, and cultural factors. To predict a country’s `happyScore` based 
@@ -443,20 +470,22 @@ country’s average income level.
 ## 4.6. Exercise
 
 Take two countries that are not listed in the DataFrame, for example Iran and Turkey. Given the correlations 
-that we have so far inferred from the dataset, try to predict how high their `happyScore` is. To do so, you 
+that we have so far detected in the dataset, try to predict how high their `happyScore` is. To do so, you 
 need the following information: 
 
 - Which region do these countries belong to? Which countries in `happy_df`are culturally more similar to 
 Iran and Turkey? 
 - How high are `GDP` and `avg_income` in these countries?
 
-look at the scatter plot with a regression line and the bubble chart and try to predict where these two countries, 
-Iran and Turkey, would be placed on the chart. 
+look at the scatter plot with a regression line and the bubble chart and try to predict where the `happy_score`s of 
+these two countries, Iran and Turkey, would be placed on the chart. 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Draw scatter plots, correlograms and bubble chart to infer information from a given dataset
-- Process of storytelling with data, using visualization to create a narrative and predict values
+- Draw scatter plots, bubble charts and correlograms in Python, using the Seaborn library.
+- Implement data visualization for exploratory analysis of a concrete dataset and telling a story 
+based on the trends that it reveals. 
+- Use data visualization to infer information from a concrete dataset. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

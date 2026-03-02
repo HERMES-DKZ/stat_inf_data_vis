@@ -1,10 +1,9 @@
 ---
 title: 'Graph Categories'
-teaching: 10
-exercises: 2
+teaching: 90
+exercises: 0
 ---
 
-<span style="color: red;">Update teaching time and number of exercises.</span>
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
@@ -15,10 +14,18 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Discuss the benefits of data visualization in humanities research.
-- Explore the most effective graph types for data visualization in the humanities.
+- Learn about the benefits of data visualization in humanities research.
+- Learn some of the most effective graph types for data visualization in the humanities.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+This episode is more meant for self study. You don't need to go into extensive detail about the content of this 
+episode. Instead, focus on reviewing the graphs with the learners and ask if they are already familiar with 
+them and their use cases. The most important graphs to highlight — those that will also be featured in the 
+visualization section of this lesson — are scatter plots, bubble charts, and correlograms. Place greater emphasis 
+on these and prepare the learners to create them in the visualization section. 
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -34,22 +41,13 @@ Data visualization has multiple purposes. It can help you understand trends and 
 It can also help you introduce a dataset to others in scientific texts or in data storytelling.
 
 :::::::::::::::::::::::::::::::::
+
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 Most graphs used for data visualization fall into one of the following four general categories, based on their function. 
 In this lesson, we won’t cover how to create all of these graphs in Python, but will focus on a few that are 
 useful for statistical inference and data storytelling with our specific dataset. However, 
 it's helpful to know the names of these graphs and understand the contexts in which they can be applied.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-This episode is more meant for self study. You don't need to go into extensive detail about the content of this episode. Instead, focus on reviewing the graphs 
-with the learners and ask if they are already familiar with them and their use cases. The most important graphs to 
-highlight—those that will also be featured in the visualization section of this lesson—are scatter plots, 
-bubble charts, and correlograms. Place greater emphasis on these and prepare the learners to create them in the 
-visualization section. 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## 2.1. Explore Relationships between two or more Features
 
@@ -140,6 +138,8 @@ Any observations that are more than 1.5 interquartile range (IQR) below Q1 or mo
 considered outliers. If there are no outliers, the whisker is the maximum value." 
 ([DATAtab](https://datatab.net/tutorial/box-plot))
 
+Below you can see examples of a histogram and a box plot.
+
 ![](fig/histogram_and_box_plot.png)
 
 ## 2.4. Draw Comparisons
@@ -158,6 +158,8 @@ bar chart could represent bins, each covering a 5-year interval, while the Y-axi
 a company in each interval. Each bar can be divided into groups based on experience level, with different colors 
 representing each group.
 
+Below you can see examples of a pie chart and a stacked bar chart.
+
 ![](fig/pie_chart_and_stacked_bar_chart.png)
 
 There are many other types of graphs beyond the ones introduced here, such as area charts, tree maps, funnel charts, 
@@ -167,14 +169,14 @@ violin plots, and more. To explore these charts and graphs further, visit the we
 
 In the next section, we'll take a closer look at the correlographic heatmap, the scatter plot, and the bubble chart. 
 We'll learn how to create them in Python and explore how they can contribute to statistical inference and data 
-storytelling. To start, let's first introduce the concept of statistical inference.
+storytelling. 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Scatter plots, bubble charts, heatmaps and correlograms for exploring relationships between two or more features
-- Bar charts and line charts for comparing different measures or trends
-- Histograms and box plots for exploring distributions
-- Pie charts and stacked bar charts for drawing comparisons
+- Scatter plots, bubble charts, heatmaps and correlograms for exploring relationships between two or more features.
+- Bar charts and line charts for comparing different measures or trends.
+- Histograms and box plots for exploring distributions.
+- Pie charts and stacked bar charts for drawing comparisons.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
